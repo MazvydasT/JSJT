@@ -58,6 +58,8 @@ namespace JTfy
 
         public string ReferencedFile { get; set; } = null;
 
+        public bool ReferencedFileIsPart { get; set; } = true;
+
         private readonly Dictionary<string, int> uniquePropertyIds = new Dictionary<string, int>();
         private readonly Dictionary<string, int> uniqueAttributeIds = new Dictionary<string, int>();
         private readonly Dictionary<JTNode, SegmentHeader> uniqueMetaDataSegmentHeaders = new Dictionary<JTNode, SegmentHeader>();
@@ -93,6 +95,7 @@ namespace JTfy
             Name = node.Name;
             TransformationMatrix = node.TransformationMatrix;
             ReferencedFile = node.ReferencedFile;
+            ReferencedFileIsPart = node.ReferencedFileIsPart;
         }
 
         public JTNode Clone() { return new JTNode(this); }
@@ -597,9 +600,9 @@ namespace JTfy
             //if (node.Number != null || node.Name != null) attributes["JT_PROP_NAME"] = string.Join(" - ", new[] { node.Number, node.Name }.Where(v => v != null).ToArray()) + "." + (node.Children.Count > 0 ? "asm" : "part") + ";0;0:";
             if (node.Number != null || node.Name != null)
             {
-                attributes["JT_PROP_NAME"] = string.Join(" - ", new[] { node.Number, node.Name }.Where(v => v != null).ToArray()) +
+                attributes["JT_PROP_NAME"] = string.Join(" - ", new[] { node.Number, node.Name }.Where(v => v != null)) +
                     "." +
-                    (node.Children.Count > 0 || ((node.ReferencedFile ?? "").Length > 0) ? "asm" : "part") +
+                    (node.Children.Count > 0 || (((node.ReferencedFile ?? "").Length > 0) && !node.ReferencedFileIsPart) ? "asm" : "part") +
                     ";0;0:";
             }
 

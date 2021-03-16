@@ -63,6 +63,7 @@ namespace JSJT
         public es5.Array<Item> children;
         public es5.Array<Number> transformationMatrix;
         public Retyped.Primitive.String filePath;
+        public Retyped.Primitive.Boolean fileIsPart;
 
         public es2015_collection.Map<Retyped.Primitive.String, Retyped.Primitive.Object> attributes;
 
@@ -104,6 +105,8 @@ namespace JSJT
                 Children = item.children?.Select(c => Item2JTNode(c)).ToList(),
 
                 ReferencedFile = item.filePath,
+
+                ReferencedFileIsPart = item.fileIsPart,
 
                 Attributes = nodeAttributes
             };
